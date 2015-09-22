@@ -6,8 +6,15 @@
 #ifndef _SIMULATION_H_
 #define _SIMULATION_H_
 
+#include <stdbool.h>
+#include <stdlib.h>
+#include <stddef.h>
+#include "ulfunc.h"
+#include "swdefine.h"
+
+
 /* initialize this library */
-unsigned swInit();
+unsigned swInit(size_t);
 /* stop this library */
 unsigned swStop();
 
