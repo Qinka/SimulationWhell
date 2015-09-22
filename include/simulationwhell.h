@@ -21,5 +21,16 @@ unsigned funcrd();
 
 
 
+/* memory pool */
+unsigned memorypoolInit();
+unsigned memorypoolDestroy();
+unsigned mpDataCounter();
+void* mpalloc(size_t);
+unsigned mpdestory(void *);
+size_t getSize(void *);
+
+
+
+
 
 #endif
