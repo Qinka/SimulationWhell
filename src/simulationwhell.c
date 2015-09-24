@@ -1,71 +1,95 @@
-
-
-
-
-
 #include "../include/simulationwhell.h"
 
+
+
+
+/* data and pointer */
+
+typedef struct {
+  void *const pointer;
+  Memory * next;
+}Memory;
+/* the head of list */
+void *listHead;
+/* is initialized */
 bool isInit = false;
 
 
-/* initialize this library */
-unsigned swInit(size_t s)
+unsigned __error=0;
+unsigned pullerror(unsigned x)
 {
-  if(isInit)
-    return _ALREADY_INIT;
-  {
-    unsigned tmp = memorypoolInit(s);
-    if(!tmp) return tmp;
-  }
-
-  return FINISH_INIT_;
-}
-/* stop this library */
-unsigned swStop()
-{
-  if(!isInit) return _ALREADY_DESTORY;
-  if(isPoolInit)
-  {
-    unsigned tmp = memorypoolDestroy();
-    if(!tmp) return tmp;
-  }
-  return FINISH_INIT_;
+  __error = x;
+  return 0;
 }
 
-/* basic function */
-/* first function: Hw */
-unsigned funcHw();
-/* second function: doubleItem */
-unsigned funcDouble();
-/* third function, */
-unsigned funcrd();
-
-
-
-/* memory pool */
-
-void *pool;
-size_t poolSize;
-size_t poolUsed;
-bool isPoolInit = false;
-
-
-unsigned memorypoolInit(size_t s)
+/* Simulation Whell Initialization */
+unsigned swInit()
 {
-  if(isPoolInit) return _ALREADY_INIT;
-  void *tmp = malloc(s);
-  if (!tmp) return _ALLOC_FAIL;
-  pool = tmp;
-  poolSize = s;
-  poolUsed = 0;
-  isInit = true;
+  if(isInit) return _ALREADLY_INIT;
+  listHead = 0;
   return FUNC_FINISH_;
 }
-unsigned memorypoolDestroy()
+/* Simulation Whell Destory */
+unsigned swDestory()
 {
-
+  if(listHead) return _NEED_FREE;
+  return FUNC_FINISH_;
 }
-unsigned mpDataCounter();
-void* mpalloc(size_t);
-unsigned mpdestory(void *);
-size_t getSize(void *);
+/* alloc memory */
+void* swalloc(size_t t)
+{
+  Memory* tmp = malloc(sizeof(Memory));
+  if (!tmp) return pullerror(MEMORY_ALLOC_FAIL);
+  tmp->next = listHead;
+  listHead = tmp;
+  tmp->pointer = malloc(t);
+  return (tmp->pointer);
+}
+/* free memory */
+unsigned swfree(void* p)
+{
+  void *cur=listHead;
+  if(p == listHead)
+  {
+    free(p->pointer);
+    listHead = p->next;
+    free(p);
+    return FUNC_FINISH_;
+  }
+  else while(cur)
+  {
+    if((cur->next) == p)
+    {
+      free(cur->next->pointer);
+      Memory *tmp = cur->next;
+      cur->next = cur->next->next;
+      free(tmp);
+      return FUNC_FINISH_;
+    }
+    cur = cur->next;
+  }
+  return _FREE_FAIL;
+}
+/* free all */
+unsigned swfreeallStep(void* p)
+{
+  if(p->next)
+  {
+    return swfree(p);
+  }
+  else
+  {
+    return swfreeallStep(p->next);
+  }
+}
+unsigned swfreeall()
+{
+  return swfreeallStep(listHead);
+}
+
+
+/* get last error */
+unsigned getError()
+{
+  return __error;
+}

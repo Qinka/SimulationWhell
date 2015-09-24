@@ -12,32 +12,15 @@
 #include "ulfunc.h"
 #include "swdefine.h"
 
-
-/* initialize this library */
-unsigned swInit(size_t);
-/* stop this library */
-unsigned swStop();
-
-/* basic function */
-/* first function: Hw */
-unsigned funcHw();
-/* second function: doubleItem */
-unsigned funcDouble();
-/* third function, */
-unsigned funcrd();
+/* Simulation Whell Initialization */
+unsigned swInit();
+/* Simulation Whell Destory */
+unsigned swDestory();
+/* alloc memory */
+void* swalloc(size_t);
+/* free memory */
+unsigned swfree(void*);
 
 
-
-/* memory pool */
-unsigned memorypoolInit();
-unsigned memorypoolDestroy();
-unsigned mpDataCounter();
-void* mpalloc(size_t);
-unsigned mpdestory(void *);
-size_t getSize(void *);
-
-
-
-
-
-#endif
+/* get last error */
+unsigned getError();
