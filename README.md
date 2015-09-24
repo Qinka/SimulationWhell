@@ -10,3 +10,12 @@ This simulation framework is just for testing those who will enter the SSSTA.Win
 You should get this repo's source, manage to complie it, install it ,and finally use it as we want.
 
 And [here](https://github.com/SSSTA/SimulationWhell/wiki) is the wiki.
+
+---
+
+## Tasks
+
+What you have to do are the following tasks.
+
+1. Build this library
+1. 

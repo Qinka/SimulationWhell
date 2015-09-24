@@ -12,11 +12,13 @@ bool isInit = false;
 unsigned swInit(size_t s)
 {
   if(isInit)
-    return _ALLOC_FAIL;
+    return _ALREADY_INIT;
   {
     unsigned tmp = memorypoolInit(s);
     if(!tmp) return tmp;
   }
+
+  return FINISH_INIT_;
 }
 /* stop this library */
 unsigned swStop()
@@ -26,7 +28,8 @@ unsigned swStop()
   {
     unsigned tmp = memorypoolDestroy();
     if(!tmp) return tmp;
-
+  }
+  return FINISH_INIT_;
 }
 
 /* basic function */
@@ -58,7 +61,10 @@ unsigned memorypoolInit(size_t s)
   isInit = true;
   return FUNC_FINISH_;
 }
-unsigned memorypoolDestroy();
+unsigned memorypoolDestroy()
+{
+
+}
 unsigned mpDataCounter();
 void* mpalloc(size_t);
 unsigned mpdestory(void *);
