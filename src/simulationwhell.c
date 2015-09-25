@@ -5,12 +5,12 @@
 
 /* data and pointer */
 
-typedef struct {
-  void *const pointer;
-  Memory * next;
+typedef struct{
+  void* pointer;
+  void* next;
 }Memory;
 /* the head of list */
-void *listHead;
+void *listHead=0;
 /* is initialized */
 bool isInit = false;
 
@@ -25,8 +25,9 @@ unsigned pullerror(unsigned x)
 /* Simulation Whell Initialization */
 unsigned swInit()
 {
-  if(isInit) return _ALREADLY_INIT;
+  if(isInit) return _ALREADY_INIT;
   listHead = 0;
+  isInit = true;
   return FUNC_FINISH_;
 }
 /* Simulation Whell Destory */
@@ -38,6 +39,7 @@ unsigned swDestory()
 /* alloc memory */
 void* swalloc(size_t t)
 {
+  if(!isInit) return pullerror(_NEED_INIT);
   Memory* tmp = malloc(sizeof(Memory));
   if (!tmp) return pullerror(MEMORY_ALLOC_FAIL);
   tmp->next = listHead;
@@ -49,37 +51,36 @@ void* swalloc(size_t t)
 unsigned swfree(void* p)
 {
   void *cur=listHead;
-  if(p == listHead)
+  if (p == ((Memory*)listHead)->pointer)
   {
-    free(p->pointer);
-    listHead = p->next;
     free(p);
+    listHead = ((Memory*)listHead)->next;
     return FUNC_FINISH_;
   }
   else while(cur)
   {
-    if((cur->next) == p)
+    if((((Memory*)cur)->next) == p)
     {
-      free(cur->next->pointer);
-      Memory *tmp = cur->next;
-      cur->next = cur->next->next;
+      free(((Memory*)((Memory*)cur)->next)->pointer);
+      Memory *tmp = ((Memory*)cur)->next;
+	  ((Memory*)cur)->next = ((Memory*)((Memory*)cur)->next)->next;
       free(tmp);
       return FUNC_FINISH_;
     }
-    cur = cur->next;
+    cur = ((Memory*)cur)->next;
   }
   return _FREE_FAIL;
 }
 /* free all */
 unsigned swfreeallStep(void* p)
 {
-  if(p->next)
+  if(((Memory*)p)->next)
   {
     return swfree(p);
   }
   else
   {
-    return swfreeallStep(p->next);
+    return swfreeallStep(((Memory*)p)->next);
   }
 }
 unsigned swfreeall()

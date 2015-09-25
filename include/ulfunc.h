@@ -3,7 +3,7 @@
 
 
 
-#ifdef _ULFUNC_H_
+#ifndef _ULFUNC_H_
 #define _ULFUNC_H_
 
 /* functions */

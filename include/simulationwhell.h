@@ -24,3 +24,5 @@ unsigned swfree(void*);
 
 /* get last error */
 unsigned getError();
+
+#endif

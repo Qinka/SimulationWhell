@@ -15,5 +15,6 @@
 #define _ALREADY_DESTORY 0x4
 #define _NEED_FREE 0x5
 #define _FREE_FAIL 0x6
+#define _NEED_INIT 0x7
 
 #endif
