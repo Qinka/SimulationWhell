@@ -20,6 +20,7 @@ What you have to do are the following tasks.
 1. Download this repo or codes;
 1. Build this library;
 1. Install this library; 
-1. Using this library's function:
-2.. d
-1. 
+1. Using this library's function；
+1. Compiler and run.
+
+And [HERE]() is the detail.
