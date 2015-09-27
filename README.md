@@ -21,5 +21,5 @@ What you have to do are the following tasks.
 1. Build this library;
 1. Install this library; 
 1. Using this library's function:
-2. d
+2.. d
 1. 
